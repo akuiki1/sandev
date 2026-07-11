@@ -3,9 +3,278 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+    --bg: oklch(0.985 0.003 255);
+    --surface: #ffffff;
+    --surface-2: oklch(0.968 0.004 255);
+    --surface-3: oklch(0.945 0.005 255);
+    --text: oklch(0.24 0.015 262);
+    --text-muted: oklch(0.5 0.014 262);
+    --text-subtle: oklch(0.63 0.011 262);
+    --border: oklch(0.915 0.005 262);
+    --border-strong: oklch(0.86 0.006 262);
+    --sh-sm:
+        0 1px 2px oklch(0.45 0.03 262 / 0.06),
+        0 1px 3px oklch(0.45 0.03 262 / 0.05);
+    --sh-md:
+        0 4px 14px oklch(0.45 0.03 262 / 0.08),
+        0 2px 5px oklch(0.45 0.03 262 / 0.05);
+    --sh-lg:
+        0 16px 40px oklch(0.4 0.03 262 / 0.12),
+        0 6px 14px oklch(0.4 0.03 262 / 0.07);
+    --accent: oklch(0.55 0.19 262);
+    --accent-hover: color-mix(in oklch, var(--accent), #000 13%);
+    --accent-fg: #ffffff;
+    --accent-soft: color-mix(in oklch, var(--accent) 12%, var(--bg));
+    --accent-border: color-mix(in oklch, var(--accent) 30%, var(--border));
+    --ring: color-mix(in oklch, var(--accent) 45%, transparent);
+    --success: oklch(0.7 0.16 150);
+    --danger: oklch(0.62 0.21 22);
+    --danger-border: oklch(0.65 0.2 22);
+    --sec-pad: clamp(64px, 9vw, 116px);
+}
+
+[data-theme='dark'] {
+    --bg: oklch(0.17 0.01 264);
+    --surface: oklch(0.205 0.013 264);
+    --surface-2: oklch(0.245 0.015 264);
+    --surface-3: oklch(0.29 0.016 264);
+    --text: oklch(0.96 0.004 260);
+    --text-muted: oklch(0.72 0.012 260);
+    --text-subtle: oklch(0.57 0.012 260);
+    --border: oklch(0.31 0.014 264);
+    --border-strong: oklch(0.4 0.016 264);
+    --sh-sm: 0 1px 2px oklch(0 0 0 / 0.35);
+    --sh-md: 0 6px 18px oklch(0 0 0 / 0.4);
+    --sh-lg: 0 18px 44px oklch(0 0 0 / 0.5);
+    --accent: oklch(0.7 0.16 262);
+    --accent-hover: color-mix(in oklch, var(--accent), #fff 12%);
+}
+
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
+        'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-mono:
+        'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --color-bg: var(--bg);
+    --color-surface: var(--surface);
+    --color-surface-2: var(--surface-2);
+    --color-surface-3: var(--surface-3);
+    --color-fg: var(--text);
+    --color-muted: var(--text-muted);
+    --color-subtle: var(--text-subtle);
+    --color-line: var(--border);
+    --color-line-strong: var(--border-strong);
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-fg: var(--accent-fg);
+    --color-accent-soft: var(--accent-soft);
+    --color-accent-line: var(--accent-border);
+    --color-ring: var(--ring);
+    --color-success: var(--success);
+    --color-danger: var(--danger);
+    --color-danger-line: var(--danger-border);
+
+    --shadow-sm: var(--sh-sm);
+    --shadow-md: var(--sh-md);
+    --shadow-lg: var(--sh-lg);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+        background: color-mix(in oklch, var(--accent) 22%, transparent);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 11px;
+        height: 11px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 99px;
+        border: 3px solid var(--bg);
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 16px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes navDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes welcomeUp {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes welcomeFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes revealUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatBlob {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(-6px, -18px) rotate(8deg);
+    }
+}
+
+@keyframes floatBlobAlt {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(8px, 13px) scale(1.06);
+    }
+}
+
+@keyframes floatDots {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+@keyframes panelFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes floatCard {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-11px);
+    }
+}
+
+@keyframes floatCardSlow {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes drawLine {
+    from {
+        stroke-dashoffset: 1;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes spinSlow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@utility reveal-up {
+    animation: revealUp both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 26%;
+}
+
+/* Striped placeholder used for missing thumbnails and screenshots. */
+@utility placeholder-stripes {
+    background-image: repeating-linear-gradient(
+        135deg,
+        var(--surface-3) 0,
+        var(--surface-3) 10px,
+        var(--surface-2) 10px,
+        var(--surface-2) 20px
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
 }
