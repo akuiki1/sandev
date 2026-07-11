@@ -166,14 +166,49 @@
     }
 }
 
-@keyframes revealUp {
+@keyframes welcomeBlurUp {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(26px);
+        filter: blur(10px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes heroCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(34px) scale(0.93);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes heroChipInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes heroChipInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
@@ -254,12 +289,6 @@
     }
 }
 
-@utility reveal-up {
-    animation: revealUp both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 26%;
-}
-
 /* Striped placeholder used for missing thumbnails and screenshots. */
 @utility placeholder-stripes {
     background-image: repeating-linear-gradient(
@@ -268,6 +297,56 @@
         var(--surface-3) 10px,
         var(--surface-2) 10px,
         var(--surface-2) 20px
+    );
+}
+
+/* Scroll reveal (driven by the v-reveal directive). Intentionally unlayered so
+   it outranks Tailwind utility transitions while the reveal plays; the
+   directive removes these classes and the --rv-* props after transitionend. */
+.reveal {
+    opacity: 0;
+    transform: translate3d(var(--rv-x, 0px), var(--rv-y, 30px), 0)
+        scale(var(--rv-scale, 1));
+    filter: blur(var(--rv-blur, 0px));
+    will-change: opacity, transform;
+    transition: none;
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+    transition:
+        opacity var(--rv-duration, 0.7s) cubic-bezier(0.2, 0.75, 0.2, 1)
+            var(--rv-delay, 0s),
+        transform var(--rv-duration, 0.7s) cubic-bezier(0.2, 0.75, 0.2, 1)
+            var(--rv-delay, 0s),
+        filter var(--rv-duration, 0.7s) cubic-bezier(0.2, 0.75, 0.2, 1)
+            var(--rv-delay, 0s);
+}
+
+/* Mouse-follow + scroll parallax layers. --mx/--my/--hero-scroll are set by
+   useHeroParallax on the hero root; --depth/--speed/--fade-rate per element
+   via Tailwind arbitrary properties, e.g. [--depth:22] [--speed:50]. All vars
+   default to 0, so without JS both classes compute to identity. */
+.hero-layer {
+    transform: translate3d(
+        calc(var(--mx, 0) * var(--depth, 0) * 1px),
+        calc(
+            var(--my, 0) * var(--depth, 0) * 0.7px + var(--hero-scroll, 0) *
+                var(--speed, 0) * 1px
+        ),
+        0
+    );
+    will-change: transform;
+}
+
+.hero-fade {
+    opacity: calc(1 - var(--hero-scroll, 0) * var(--fade-rate, 1));
+    transform: translate3d(
+        0,
+        calc(var(--hero-scroll, 0) * var(--speed, 0) * 1px),
+        0
     );
 }
 

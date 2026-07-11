@@ -2,10 +2,15 @@
 import { Head } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import ProjectCard from '@/components/ProjectCard.vue';
+import { useHeroParallax } from '@/composables/useHeroParallax';
+import { vReveal } from '@/directives/reveal';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import type { ProjectCard as ProjectCardType } from '@/types';
 
 const props = defineProps<{ projects: ProjectCardType[] }>();
+
+const heroRef = ref<HTMLElement | null>(null);
+useHeroParallax(heroRef);
 
 const techFilter = ref('all');
 
@@ -70,6 +75,7 @@ const services = [
         <!-- HERO -->
         <section
             id="beranda"
+            ref="heroRef"
             class="relative scroll-mt-[100px] overflow-hidden bg-[radial-gradient(1100px_560px_at_82%_-10%,color-mix(in_oklch,var(--accent)_13%,transparent),transparent_58%)] pt-[clamp(104px,12vw,132px)] pb-[clamp(30px,4vw,48px)]"
         >
             <svg
@@ -119,7 +125,9 @@ const services = [
                 <div
                     class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(32px,5vw,72px)]"
                 >
-                    <div class="flex flex-col items-start text-left">
+                    <div
+                        class="hero-fade flex flex-col items-start text-left [--fade-rate:1.2] [--speed:60]"
+                    >
                         <span
                             class="inline-flex animate-[welcomeUp_.7s_cubic-bezier(.2,.75,.2,1)_.05s_both] items-center gap-[9px] rounded-full border border-accent-line bg-[color-mix(in_oklch,var(--accent)_8%,var(--surface))] px-[15px] py-2"
                         >
@@ -132,19 +140,19 @@ const services = [
                             >
                         </span>
                         <h1
-                            class="mt-6 animate-[welcomeUp_.75s_cubic-bezier(.2,.75,.2,1)_.14s_both] text-[clamp(40px,5.6vw,74px)]/[1.07] font-extrabold tracking-[-.03em] text-fg"
+                            class="mt-6 animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.14s_both] text-[clamp(40px,5.6vw,74px)]/[1.07] font-extrabold tracking-[-.03em] text-fg"
                         >
                             Halo, saya<br /><span class="text-accent"
                                 >SanDev</span
                             >.
                         </h1>
                         <p
-                            class="mt-5 animate-[welcomeUp_.75s_cubic-bezier(.2,.75,.2,1)_.22s_both] text-[clamp(19px,2.4vw,24px)]/[1.3] font-bold text-fg"
+                            class="mt-5 animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.22s_both] text-[clamp(19px,2.4vw,24px)]/[1.3] font-bold text-fg"
                         >
                             Web developer spesialis Laravel.
                         </p>
                         <p
-                            class="mt-4 max-w-[500px] animate-[welcomeUp_.75s_cubic-bezier(.2,.75,.2,1)_.3s_both] text-[clamp(15px,2vw,16.5px)]/[1.7] text-muted"
+                            class="mt-4 max-w-[500px] animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.3s_both] text-[clamp(15px,2vw,16.5px)]/[1.7] text-muted"
                         >
                             Saya merancang, membangun, dan merawat sistem
                             informasi berbasis Laravel yang rapi, ringan, dan
@@ -208,85 +216,111 @@ const services = [
                             >
                         </div>
                     </div>
-                    <div class="flex flex-col">
+                    <div
+                        class="hero-fade flex flex-col [--fade-rate:1] [--speed:24]"
+                    >
                         <div
-                            class="relative mx-auto w-full max-w-[420px] animate-[welcomeUp_.9s_cubic-bezier(.2,.75,.2,1)_.2s_both]"
+                            class="relative mx-auto w-full max-w-[420px] animate-[heroCardIn_.9s_cubic-bezier(.2,.75,.2,1)_.2s_both]"
                         >
                             <div
-                                class="absolute -top-4 -right-5 z-0 h-60 w-[180px] animate-[floatBlob_9s_ease-in-out_infinite] rounded-[46%_54%_50%_50%/42%_40%_60%_58%] bg-linear-200 from-[color-mix(in_oklch,var(--accent)_90%,#000_6%)] to-[color-mix(in_oklch,var(--accent)_45%,var(--surface))]"
-                            ></div>
-                            <div
-                                class="absolute bottom-1.5 -left-6 z-0 h-[118px] w-[118px] animate-[floatBlobAlt_7.5s_ease-in-out_infinite] rounded-full bg-linear-150 from-[color-mix(in_oklch,var(--accent)_28%,var(--surface))] to-[color-mix(in_oklch,var(--accent)_82%,transparent)]"
-                            ></div>
-                            <div
-                                class="absolute top-[46%] -right-3.5 z-0 h-[140px] w-[60px] animate-[floatDots_6s_ease-in-out_infinite] bg-[radial-gradient(color-mix(in_oklch,var(--accent)_55%,transparent)_2px,transparent_2.3px)] bg-size-[15px_15px]"
-                            ></div>
-                            <div
-                                class="relative z-1 aspect-37/50 animate-[panelFloat_8s_ease-in-out_infinite] overflow-hidden rounded-[28px] border border-accent-line bg-linear-165 from-[color-mix(in_oklch,var(--accent)_12%,var(--surface))] to-surface shadow-lg"
+                                class="hero-layer absolute -top-4 -right-5 z-0 [--depth:-26] [--speed:70]"
                             >
-                                <img
-                                    src="/images/sandev-portrait.png"
-                                    alt="Foto SanDev, Website Developer"
-                                    class="absolute inset-0 h-full w-full object-cover object-top"
-                                />
                                 <div
-                                    class="absolute bottom-3.5 left-4 z-2 flex gap-1.5"
-                                >
-                                    <span
-                                        class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_70%,transparent)]"
-                                    ></span>
-                                    <span
-                                        class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_45%,transparent)]"
-                                    ></span>
-                                    <span
-                                        class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_28%,transparent)]"
-                                    ></span>
-                                </div>
+                                    class="h-60 w-[180px] animate-[floatBlob_9s_ease-in-out_infinite] rounded-[46%_54%_50%_50%/42%_40%_60%_58%] bg-linear-200 from-[color-mix(in_oklch,var(--accent)_90%,#000_6%)] to-[color-mix(in_oklch,var(--accent)_45%,var(--surface))]"
+                                ></div>
                             </div>
                             <div
-                                class="absolute top-[18%] -left-3.5 z-3 animate-[floatCard_5.5s_ease-in-out_infinite] rounded-2xl border border-line bg-[color-mix(in_oklch,var(--surface)_90%,transparent)] px-[17px] py-[13px] shadow-lg backdrop-blur-[10px]"
+                                class="hero-layer absolute bottom-1.5 -left-6 z-0 [--depth:-18] [--speed:52]"
                             >
                                 <div
-                                    class="text-[30px]/none font-extrabold tracking-[-.02em] text-accent"
-                                >
-                                    3+
-                                </div>
-                                <div
-                                    class="mt-1 text-[12.5px]/[1.3] font-medium text-muted"
-                                >
-                                    Tahun<br />Pengalaman
-                                </div>
+                                    class="h-[118px] w-[118px] animate-[floatBlobAlt_7.5s_ease-in-out_infinite] rounded-full bg-linear-150 from-[color-mix(in_oklch,var(--accent)_28%,var(--surface))] to-[color-mix(in_oklch,var(--accent)_82%,transparent)]"
+                                ></div>
                             </div>
                             <div
-                                class="absolute -right-4 bottom-3.5 z-3 flex max-w-[246px] animate-[floatCardSlow_6.5s_ease-in-out_infinite] items-center gap-3 rounded-2xl border border-line bg-[color-mix(in_oklch,var(--surface)_90%,transparent)] px-4 py-[13px] shadow-lg backdrop-blur-[10px]"
+                                class="hero-layer absolute top-[46%] -right-3.5 z-0 [--depth:-30] [--speed:80]"
                             >
-                                <span
-                                    class="inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-linear-135 from-accent to-[color-mix(in_oklch,var(--accent)_58%,#000_24%)]"
+                                <div
+                                    class="h-[140px] w-[60px] animate-[floatDots_6s_ease-in-out_infinite] bg-[radial-gradient(color-mix(in_oklch,var(--accent)_55%,transparent)_2px,transparent_2.3px)] bg-size-[15px_15px]"
+                                ></div>
+                            </div>
+                            <div class="hero-layer relative z-1 [--depth:10]">
+                                <div
+                                    class="relative aspect-37/50 animate-[panelFloat_8s_ease-in-out_infinite] overflow-hidden rounded-[28px] border border-accent-line bg-linear-165 from-[color-mix(in_oklch,var(--accent)_12%,var(--surface))] to-surface shadow-lg"
                                 >
-                                    <svg
-                                        width="22"
-                                        height="22"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="#fff"
-                                        stroke-width="2.2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="m9 8-4 4 4 4M15 8l4 4-4 4" />
-                                    </svg>
-                                </span>
-                                <div class="min-w-0">
+                                    <img
+                                        src="/images/sandev-portrait.png"
+                                        alt="Foto SanDev, Website Developer"
+                                        class="absolute inset-0 h-full w-full object-cover object-top"
+                                    />
                                     <div
-                                        class="text-sm/[1.2] font-bold text-fg"
+                                        class="absolute bottom-3.5 left-4 z-2 flex gap-1.5"
                                     >
-                                        Laravel Enthusiast
+                                        <span
+                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_70%,transparent)]"
+                                        ></span>
+                                        <span
+                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_45%,transparent)]"
+                                        ></span>
+                                        <span
+                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_28%,transparent)]"
+                                        ></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="hero-layer absolute top-[18%] -left-3.5 z-3 [--depth:22] [--speed:-14]"
+                            >
+                                <div
+                                    class="animate-[heroChipInLeft_.7s_cubic-bezier(.2,.75,.2,1)_.55s_both,floatCard_5.5s_ease-in-out_1.25s_infinite] rounded-2xl border border-line bg-[color-mix(in_oklch,var(--surface)_90%,transparent)] px-[17px] py-[13px] shadow-lg backdrop-blur-[10px]"
+                                >
+                                    <div
+                                        class="text-[30px]/none font-extrabold tracking-[-.02em] text-accent"
+                                    >
+                                        3+
                                     </div>
                                     <div
-                                        class="mt-[3px] text-[11px]/[1.5] font-medium text-muted"
+                                        class="mt-1 text-[12.5px]/[1.3] font-medium text-muted"
                                     >
-                                        Clean Code • Performance<br />Scalable •
-                                        Maintainable
+                                        Tahun<br />Pengalaman
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="hero-layer absolute -right-4 bottom-3.5 z-3 [--depth:28] [--speed:-14]"
+                            >
+                                <div
+                                    class="flex max-w-[246px] animate-[heroChipInRight_.7s_cubic-bezier(.2,.75,.2,1)_.68s_both,floatCardSlow_6.5s_ease-in-out_1.38s_infinite] items-center gap-3 rounded-2xl border border-line bg-[color-mix(in_oklch,var(--surface)_90%,transparent)] px-4 py-[13px] shadow-lg backdrop-blur-[10px]"
+                                >
+                                    <span
+                                        class="inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-linear-135 from-accent to-[color-mix(in_oklch,var(--accent)_58%,#000_24%)]"
+                                    >
+                                        <svg
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="#fff"
+                                            stroke-width="2.2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path
+                                                d="m9 8-4 4 4 4M15 8l4 4-4 4"
+                                            />
+                                        </svg>
+                                    </span>
+                                    <div class="min-w-0">
+                                        <div
+                                            class="text-sm/[1.2] font-bold text-fg"
+                                        >
+                                            Laravel Enthusiast
+                                        </div>
+                                        <div
+                                            class="mt-[3px] text-[11px]/[1.5] font-medium text-muted"
+                                        >
+                                            Clean Code • Performance<br />Scalable
+                                            • Maintainable
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -489,12 +523,12 @@ const services = [
             class="scroll-mt-[100px] border-y border-line bg-surface-2 py-(--sec-pad)"
         >
             <div
-                class="mx-auto w-full max-w-[1140px] reveal-up px-[clamp(20px,5vw,44px)]"
+                class="mx-auto w-full max-w-[1140px] px-[clamp(20px,5vw,44px)]"
             >
                 <div
                     class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(32px,5vw,64px)]"
                 >
-                    <div>
+                    <div v-reveal.left>
                         <div
                             class="flex aspect-4/5 max-w-[420px] items-center justify-center rounded-[18px] border border-line placeholder-stripes shadow-md"
                         >
@@ -529,34 +563,47 @@ const services = [
                     </div>
                     <div>
                         <span
+                            v-reveal
                             class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
                             >Tentang Saya</span
                         >
                         <h2
+                            v-reveal.blur="80"
                             class="mt-4 text-[clamp(28px,4vw,40px)]/[1.12] font-extrabold tracking-[-.02em] text-fg"
                         >
                             Developer yang peduli pada detail dan
                             maintainability.
                         </h2>
-                        <p class="mt-[18px] text-[16.5px]/[1.7] text-muted">
+                        <p
+                            v-reveal="160"
+                            class="mt-[18px] text-[16.5px]/[1.7] text-muted"
+                        >
                             Selama lebih dari 3 tahun saya membangun sistem
                             informasi untuk kebutuhan internal instansi dan
                             UMKM. Mulai dari analisis kebutuhan, perancangan
                             basis data, hingga deployment dan pemeliharaan.
                         </p>
-                        <p class="mt-3.5 text-[16.5px]/[1.7] text-muted">
+                        <p
+                            v-reveal="220"
+                            class="mt-3.5 text-[16.5px]/[1.7] text-muted"
+                        >
                             Prinsip saya sederhana: kode yang rapi, alur yang
                             jelas, dan aplikasi yang benar-benar dipakai orang.
                         </p>
                         <div
+                            v-reveal="280"
                             class="mt-[26px] font-mono text-[11px]/none font-medium tracking-[.12em] text-subtle uppercase"
                         >
                             Skill Utama
                         </div>
                         <div class="mt-3.5 flex flex-wrap gap-2.5">
                             <span
-                                v-for="skill in skills"
+                                v-for="(skill, i) in skills"
                                 :key="skill"
+                                v-reveal="{
+                                    delay: 320 + i * 40,
+                                    duration: 500,
+                                }"
                                 class="inline-flex items-center rounded-[10px] border border-line bg-surface px-[15px] py-[9px] text-sm/none font-medium text-fg"
                             >
                                 {{ skill }}
@@ -570,32 +617,38 @@ const services = [
         <!-- PROJECT -->
         <section id="project" class="scroll-mt-[100px] py-(--sec-pad)">
             <div
-                class="mx-auto w-full max-w-[1140px] reveal-up px-[clamp(20px,5vw,44px)]"
+                class="mx-auto w-full max-w-[1140px] px-[clamp(20px,5vw,44px)]"
             >
                 <div class="flex flex-wrap items-end justify-between gap-5">
                     <div class="max-w-[620px]">
                         <span
+                            v-reveal
                             class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
                             >Project</span
                         >
                         <h2
+                            v-reveal.blur="80"
                             class="mt-4 text-[clamp(28px,4vw,40px)]/[1.12] font-extrabold tracking-[-.02em] text-fg"
                         >
                             Karya yang pernah saya bangun.
                         </h2>
-                        <p class="mt-3.5 text-[16.5px]/[1.65] text-muted">
+                        <p
+                            v-reveal="160"
+                            class="mt-3.5 text-[16.5px]/[1.65] text-muted"
+                        >
                             Enam sistem informasi yang saya rancang dan
                             kembangkan. Saring berdasarkan teknologi untuk
                             melihat yang relevan.
                         </p>
                     </div>
                     <span
+                        v-reveal="240"
                         class="font-mono text-[13px]/none font-medium whitespace-nowrap text-subtle"
                         >{{ visibleProjects.length }} /
                         {{ projects.length }} project</span
                     >
                 </div>
-                <div class="mt-7 flex flex-wrap gap-2.5">
+                <div v-reveal="200" class="mt-7 flex flex-wrap gap-2.5">
                     <button
                         v-for="chip in ['all', ...techChips]"
                         :key="chip"
@@ -615,8 +668,9 @@ const services = [
                     class="mt-7 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[22px]"
                 >
                     <ProjectCard
-                        v-for="project in visibleProjects"
+                        v-for="(project, i) in visibleProjects"
                         :key="project.id"
+                        v-reveal="{ delay: (i % 3) * 90 }"
                         :project="project"
                     />
                 </div>
@@ -632,19 +686,24 @@ const services = [
         <!-- LAYANAN -->
         <section id="layanan" class="scroll-mt-[100px] py-(--sec-pad)">
             <div
-                class="mx-auto w-full max-w-[1140px] reveal-up px-[clamp(20px,5vw,44px)]"
+                class="mx-auto w-full max-w-[1140px] px-[clamp(20px,5vw,44px)]"
             >
                 <div class="max-w-[620px]">
                     <span
+                        v-reveal
                         class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
                         >Layanan</span
                     >
                     <h2
+                        v-reveal.blur="80"
                         class="mt-4 text-[clamp(28px,4vw,40px)]/[1.12] font-extrabold tracking-[-.02em] text-fg"
                     >
                         Apa yang bisa saya bantu.
                     </h2>
-                    <p class="mt-3.5 text-[16.5px]/[1.65] text-muted">
+                    <p
+                        v-reveal="160"
+                        class="mt-3.5 text-[16.5px]/[1.65] text-muted"
+                    >
                         Dari ide sampai aplikasi berjalan — saya bantu di setiap
                         tahap pengembangan sistem berbasis Laravel.
                     </p>
@@ -653,8 +712,13 @@ const services = [
                     class="mt-8 grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[22px]"
                 >
                     <div
-                        v-for="service in services"
+                        v-for="(service, i) in services"
                         :key="service.title"
+                        v-reveal="{
+                            variant:
+                                i === 0 ? 'left' : i === 2 ? 'right' : 'up',
+                            delay: i * 110,
+                        }"
                         class="rounded-2xl border border-line bg-surface p-[26px] shadow-md transition-all duration-[.22s] hover:-translate-y-1 hover:border-accent-line hover:shadow-lg"
                     >
                         <span
@@ -730,18 +794,21 @@ const services = [
             class="scroll-mt-[100px] border-t border-line bg-surface-2 py-(--sec-pad)"
         >
             <div
-                class="mx-auto w-full max-w-[1140px] reveal-up px-[clamp(20px,5vw,44px)] text-center"
+                class="mx-auto w-full max-w-[1140px] px-[clamp(20px,5vw,44px)] text-center"
             >
                 <span
+                    v-reveal
                     class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
                     >Kontak</span
                 >
                 <h2
+                    v-reveal.blur="80"
                     class="mt-4 text-[clamp(28px,4vw,42px)]/[1.1] font-extrabold tracking-[-.02em] text-fg"
                 >
                     Mari berkolaborasi.
                 </h2>
                 <p
+                    v-reveal="160"
                     class="mx-auto mt-4 max-w-[560px] text-[16.5px]/[1.65] text-muted"
                 >
                     Punya ide sistem atau butuh developer untuk project Laravel
@@ -749,6 +816,7 @@ const services = [
                 </p>
                 <div class="mt-[34px] flex flex-wrap justify-center gap-3.5">
                     <a
+                        v-reveal.scale="240"
                         href="https://wa.me/6281234567890"
                         target="_blank"
                         rel="noopener"
@@ -769,6 +837,7 @@ const services = [
                         WhatsApp
                     </a>
                     <a
+                        v-reveal.scale="320"
                         href="mailto:halo@sandev.id"
                         class="inline-flex cursor-pointer items-center gap-[9px] rounded-[11px] border border-line-strong bg-surface px-[21px] py-3 text-[15px]/none font-semibold text-fg transition-all duration-200 hover:border-accent hover:text-accent"
                     >
@@ -788,6 +857,7 @@ const services = [
                         Email
                     </a>
                     <a
+                        v-reveal.scale="400"
                         href="https://github.com/sandev"
                         target="_blank"
                         rel="noopener"
