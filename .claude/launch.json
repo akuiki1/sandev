@@ -3,9 +3,10 @@
     "configurations": [
         {
             "name": "laravel",
-            "runtimeExecutable": "php",
-            "runtimeArgs": ["artisan", "serve", "--port=8000"],
-            "port": 8000
+            "runtimeExecutable": "cmd",
+            "runtimeArgs": ["/c", "php artisan serve --port=%PORT%"],
+            "port": 8000,
+            "autoPort": true
         }
     ]
 }

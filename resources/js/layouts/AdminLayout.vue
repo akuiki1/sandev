@@ -38,16 +38,26 @@ const navBase =
         >
             <Link
                 :href="dashboard()"
-                class="flex cursor-pointer items-center border-none bg-transparent p-2 text-xl/none font-extrabold tracking-[-.02em] text-fg"
-                >San<span class="text-accent">Dev</span></Link
+                class="flex cursor-pointer items-center border-none bg-transparent p-2"
             >
+                <img
+                    src="/images/nusandi-mark-green.png"
+                    alt="Nusandi"
+                    class="h-[26px] w-auto dark:hidden"
+                />
+                <img
+                    src="/images/nusandi-mark-white.png"
+                    alt="Nusandi"
+                    class="hidden h-[26px] w-auto dark:block"
+                />
+            </Link>
             <nav class="flex flex-1 flex-row gap-1 min-[861px]:flex-col">
                 <Link
                     :href="dashboard()"
                     :class="[
                         navBase,
                         isDashboard
-                            ? 'bg-accent-soft text-accent'
+                            ? 'bg-accent-soft text-label'
                             : 'bg-transparent text-muted',
                     ]"
                 >
@@ -73,7 +83,7 @@ const navBase =
                     :class="[
                         navBase,
                         isProjects
-                            ? 'bg-accent-soft text-accent'
+                            ? 'bg-accent-soft text-label'
                             : 'bg-transparent text-muted',
                     ]"
                 >
@@ -99,12 +109,12 @@ const navBase =
             >
                 <div class="flex items-center gap-2.5 px-1.5 py-1">
                     <span
-                        class="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[9px] bg-accent-soft text-sm/none font-bold text-accent"
-                        >SD</span
+                        class="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[9px] bg-accent-soft text-sm/none font-bold text-label"
+                        >RS</span
                     >
                     <div class="min-w-0">
                         <div class="text-[13.5px]/[1.2] font-semibold text-fg">
-                            {{ page.props.auth.user?.name ?? 'SanDev' }}
+                            {{ page.props.auth.user?.name ?? 'Rizki Syandana' }}
                         </div>
                         <div
                             class="overflow-hidden font-mono text-[11.5px]/[1.2] font-medium text-ellipsis whitespace-nowrap text-subtle"

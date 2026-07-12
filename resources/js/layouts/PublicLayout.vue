@@ -12,6 +12,7 @@ const sections = [
     { id: 'tentang', label: 'Tentang' },
     { id: 'project', label: 'Project' },
     { id: 'layanan', label: 'Layanan' },
+    { id: 'proses', label: 'Proses' },
     { id: 'kontak', label: 'Kontak' },
 ] as const;
 
@@ -98,29 +99,19 @@ onBeforeUnmount(() => {
             >
                 <button
                     type="button"
-                    class="flex cursor-pointer items-center gap-2.5 border-none bg-transparent p-0"
+                    class="flex cursor-pointer items-center border-none bg-transparent p-0"
                     @click="goSection('beranda')"
                 >
-                    <span
-                        class="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[10px] bg-linear-135 from-accent to-[color-mix(in_oklch,var(--accent)_58%,#000_24%)] shadow-[0_5px_12px_color-mix(in_oklch,var(--accent)_35%,transparent)]"
-                    >
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#fff"
-                            stroke-width="2.3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="m9 8-4 4 4 4M15 8l4 4-4 4" />
-                        </svg>
-                    </span>
-                    <span
-                        class="text-[21px]/none font-extrabold tracking-[-.02em] text-fg"
-                        >San<span class="text-accent">Dev</span></span
-                    >
+                    <img
+                        src="/images/nusandi-mark-green.png"
+                        alt="Nusandi"
+                        class="h-7 w-auto dark:hidden"
+                    />
+                    <img
+                        src="/images/nusandi-mark-white.png"
+                        alt="Nusandi"
+                        class="hidden h-7 w-auto dark:block"
+                    />
                 </button>
                 <nav
                     class="flex items-center gap-[clamp(16px,2vw,30px)] max-[860px]:hidden"
@@ -132,7 +123,7 @@ onBeforeUnmount(() => {
                         class="cursor-pointer border-x-0 border-t-0 border-b-2 border-solid bg-transparent px-[3px] py-[9px] text-[14.5px]/none whitespace-nowrap transition-colors duration-[.18s] hover:text-accent"
                         :class="
                             activeSection === section.id && isHome
-                                ? 'border-accent font-bold text-accent'
+                                ? 'border-accent font-bold text-label'
                                 : 'border-transparent font-semibold text-muted'
                         "
                         @click="goSection(section.id)"
@@ -206,7 +197,7 @@ onBeforeUnmount(() => {
                 class="mx-auto flex w-full max-w-[1140px] flex-wrap items-center justify-between gap-3.5 px-[clamp(20px,5vw,44px)] py-[26px]"
             >
                 <span class="font-mono text-[13px]/none font-medium text-subtle"
-                    >© {{ year }} SanDev · Website Developer</span
+                    >© {{ year }} Nusandi · Kode Nusantara</span
                 >
                 <div class="flex gap-[18px]">
                     <button

@@ -1,5 +1,5 @@
-import { onBeforeUnmount, onMounted  } from 'vue';
-import type {Ref} from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
+import type { Ref } from 'vue';
 
 /**
  * Mouse-follow and scroll parallax for the hero section. Writes `--mx`,

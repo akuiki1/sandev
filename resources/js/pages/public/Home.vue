@@ -67,6 +67,65 @@ const services = [
         icon: 'gauge',
     },
 ] as const;
+
+const workflowSteps = [
+    {
+        step: '01',
+        icon: 'search',
+        title: 'Discovery & Analisis Kebutuhan',
+        description:
+            'Setiap project dimulai dari masalah yang jelas — bukan langsung koding. Saya menggali tujuan bisnis, mewawancarai stakeholder, dan memetakan alur pengguna sampai scope-nya terukur.',
+        deliverables: ['Requirement Doc', 'User Flow', 'Scope & Estimasi'],
+    },
+    {
+        step: '02',
+        icon: 'blueprint',
+        title: 'Perencanaan & Arsitektur',
+        description:
+            'Skema database (ERD), arsitektur aplikasi, dan milestone dirancang di awal. Keputusan teknis diambil dengan sadar agar sistem tetap mudah dikembangkan bertahun-tahun ke depan.',
+        deliverables: ['ERD', 'Arsitektur Sistem', 'Roadmap Milestone'],
+    },
+    {
+        step: '03',
+        icon: 'design',
+        title: 'Desain UI/UX & Prototype',
+        description:
+            'Wireframe hingga prototype divalidasi bersama klien sebelum satu baris kode ditulis — merevisi desain jauh lebih murah daripada merevisi kode.',
+        deliverables: ['Wireframe', 'Prototype', 'Design System'],
+    },
+    {
+        step: '04',
+        icon: 'code',
+        title: 'Development Iteratif',
+        description:
+            'Fitur dibangun bertahap dengan Git workflow, standar clean code, dan code review. Demo progres berkala memastikan klien selalu tahu sampai mana pengerjaan.',
+        deliverables: ['Git Workflow', 'Code Review', 'Demo Berkala'],
+    },
+    {
+        step: '05',
+        icon: 'shield',
+        title: 'Testing & Quality Assurance',
+        description:
+            'Automated testing, uji manual, audit keamanan, dan optimasi query. Sebuah fitur baru saya anggap selesai hanya jika sudah teruji dan aman.',
+        deliverables: ['Automated Test', 'Security Check', 'Optimasi Performa'],
+    },
+    {
+        step: '06',
+        icon: 'deploy',
+        title: 'Deployment & CI/CD',
+        description:
+            'Rilis lewat pipeline otomatis: diuji di staging dulu, baru naik ke production — lengkap dengan backup dan rencana rollback, tanpa mengganggu pengguna.',
+        deliverables: ['CI/CD Pipeline', 'Staging Env', 'Zero-Downtime'],
+    },
+    {
+        step: '07',
+        icon: 'monitor',
+        title: 'Monitoring & Maintenance',
+        description:
+            'Setelah rilis, sistem terus dimonitor: error, uptime, dan performa. Dokumentasi teknis dan training memastikan tim Anda mandiri — sistem yang baik dirawat, bukan ditinggal.',
+        deliverables: ['Dokumentasi', 'Training', 'Support Berkelanjutan'],
+    },
+] as const;
 </script>
 
 <template>
@@ -135,30 +194,32 @@ const services = [
                                 class="h-2 w-2 animate-[spinSlow_1s_linear] rounded-full bg-accent"
                             ></span>
                             <span
-                                class="font-mono text-xs/none font-semibold tracking-[.16em] text-accent uppercase"
-                                >Website Developer Specialist</span
+                                class="font-mono text-xs/none font-semibold tracking-[.16em] text-label uppercase"
+                                >Founder Nusandi · Software House</span
                             >
                         </span>
                         <h1
                             class="mt-6 animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.14s_both] text-[clamp(40px,5.6vw,74px)]/[1.07] font-extrabold tracking-[-.03em] text-fg"
                         >
-                            Halo, saya<br /><span class="text-accent"
-                                >SanDev</span
-                            >.
+                            Halo, saya<br /><span class="text-headline"
+                                >Rizki Syandana</span
+                            ><span class="text-dot">.</span>
                         </h1>
                         <p
                             class="mt-5 animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.22s_both] text-[clamp(19px,2.4vw,24px)]/[1.3] font-bold text-fg"
                         >
-                            Web developer spesialis Laravel.
+                            Founder Nusandi — software house yang membangun
+                            perangkat lunak untuk bisnis Indonesia.
                         </p>
                         <p
                             class="mt-4 max-w-[500px] animate-[welcomeBlurUp_.75s_cubic-bezier(.2,.75,.2,1)_.3s_both] text-[clamp(15px,2vw,16.5px)]/[1.7] text-muted"
                         >
-                            Saya merancang, membangun, dan merawat sistem
-                            informasi berbasis Laravel yang rapi, ringan, dan
-                            benar-benar dipakai penggunanya. Senang mengubah
-                            proses manual jadi aplikasi yang bikin kerja lebih
-                            cepat.
+                            Nusandi lahir dari satu keyakinan: perangkat lunak
+                            bukan sekadar produk, tapi jembatan — antara cara
+                            manual dan digital, antara usaha kecil dan
+                            pelanggannya di pulau seberang. Dari Hulu Sungai
+                            Tengah, saya membangun sistem Laravel yang rapi,
+                            ringan, dan benar-benar dipakai.
                         </p>
                         <div
                             class="mt-[34px] flex animate-[welcomeUp_.75s_cubic-bezier(.2,.75,.2,1)_.38s_both] flex-wrap justify-start gap-3.5"
@@ -249,21 +310,27 @@ const services = [
                                 >
                                     <img
                                         src="/images/sandev-portrait.png"
-                                        alt="Foto SanDev, Website Developer"
+                                        alt="Rizki Syandana, Founder Nusandi"
                                         class="absolute inset-0 h-full w-full object-cover object-top"
                                     />
                                     <div
-                                        class="absolute bottom-3.5 left-4 z-2 flex gap-1.5"
+                                        class="absolute inset-x-0 bottom-0 z-2 flex items-center gap-2.5 bg-linear-to-t from-[color-mix(in_oklch,var(--brand)_94%,transparent)] to-transparent px-4 pt-12 pb-4"
                                     >
                                         <span
-                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_70%,transparent)]"
+                                            class="h-2.5 w-2.5 flex-none rounded-full bg-dot"
                                         ></span>
-                                        <span
-                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_45%,transparent)]"
-                                        ></span>
-                                        <span
-                                            class="h-[7px] w-[7px] rounded-full bg-[color-mix(in_oklch,#fff_28%,transparent)]"
-                                        ></span>
+                                        <div class="min-w-0">
+                                            <div
+                                                class="text-[14.5px]/[1.2] font-bold text-white"
+                                            >
+                                                Rizki Syandana
+                                            </div>
+                                            <div
+                                                class="mt-[3px] font-mono text-[10.5px]/[1.2] font-medium tracking-[.14em] text-white/70 uppercase"
+                                            >
+                                                Founder Nusandi
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -564,7 +631,7 @@ const services = [
                     <div>
                         <span
                             v-reveal
-                            class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
+                            class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
                             >Tentang Saya</span
                         >
                         <h2
@@ -623,7 +690,7 @@ const services = [
                     <div class="max-w-[620px]">
                         <span
                             v-reveal
-                            class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
+                            class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
                             >Project</span
                         >
                         <h2
@@ -691,7 +758,7 @@ const services = [
                 <div class="max-w-[620px]">
                     <span
                         v-reveal
-                        class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
+                        class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
                         >Layanan</span
                     >
                     <h2
@@ -788,6 +855,245 @@ const services = [
             </div>
         </section>
 
+        <!-- PROSES -->
+        <section
+            id="proses"
+            class="scroll-mt-[100px] border-t border-line bg-surface-2 py-(--sec-pad)"
+        >
+            <div
+                class="mx-auto w-full max-w-[1140px] px-[clamp(20px,5vw,44px)]"
+            >
+                <div class="max-w-[620px]">
+                    <span
+                        v-reveal
+                        class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
+                        >Proses Kerja</span
+                    >
+                    <h2
+                        v-reveal.blur="80"
+                        class="mt-4 text-[clamp(28px,4vw,40px)]/[1.12] font-extrabold tracking-[-.02em] text-fg"
+                    >
+                        Dari ide sampai rilis — terstruktur dan terukur.
+                    </h2>
+                    <p
+                        v-reveal="160"
+                        class="mt-3.5 text-[16.5px]/[1.65] text-muted"
+                    >
+                        Alur kerja yang sama saya terapkan di setiap project,
+                        dari sistem kecil sampai aplikasi kompleks. Transparan
+                        di tiap tahap — Anda selalu tahu apa yang sedang
+                        dikerjakan dan kenapa.
+                    </p>
+                </div>
+                <div class="relative mt-[clamp(36px,5vw,56px)]">
+                    <div
+                        aria-hidden="true"
+                        class="absolute top-0 bottom-0 left-[21px] w-px -translate-x-1/2 bg-linear-to-b from-transparent via-accent-line to-transparent md:left-1/2"
+                    ></div>
+                    <div class="flex flex-col gap-[clamp(26px,4vw,40px)]">
+                        <div
+                            v-for="(item, i) in workflowSteps"
+                            :key="item.step"
+                            class="relative md:grid md:grid-cols-2 md:gap-x-16"
+                        >
+                            <div
+                                class="absolute top-6 left-[21px] z-1 -translate-x-1/2 md:left-1/2"
+                            >
+                                <span
+                                    v-reveal.scale
+                                    class="flex h-11 w-11 items-center justify-center rounded-full border border-accent-line bg-surface font-mono text-[13px]/none font-bold text-label shadow-md"
+                                >
+                                    {{ item.step }}
+                                </span>
+                            </div>
+                            <div
+                                class="ml-14 md:ml-0"
+                                :class="
+                                    i % 2 === 0
+                                        ? 'md:col-start-1'
+                                        : 'md:col-start-2'
+                                "
+                            >
+                                <div
+                                    v-reveal="{
+                                        variant: i % 2 === 0 ? 'left' : 'right',
+                                        delay: 80,
+                                    }"
+                                    class="rounded-2xl border border-line bg-surface p-[26px] shadow-md transition-all duration-[.22s] hover:-translate-y-1 hover:border-accent-line hover:shadow-lg"
+                                >
+                                    <div class="flex items-center gap-3.5">
+                                        <span
+                                            class="inline-flex h-12 w-12 flex-none items-center justify-center rounded-[13px] border border-accent-line bg-accent-soft text-accent"
+                                        >
+                                            <svg
+                                                v-if="item.icon === 'search'"
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <circle cx="11" cy="11" r="7" />
+                                                <path d="m21 21-4.3-4.3" />
+                                            </svg>
+                                            <svg
+                                                v-else-if="
+                                                    item.icon === 'blueprint'
+                                                "
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <path d="m12 2 9 5-9 5-9-5z" />
+                                                <path d="m3 12 9 5 9-5" />
+                                                <path d="m3 17 9 5 9-5" />
+                                            </svg>
+                                            <svg
+                                                v-else-if="
+                                                    item.icon === 'design'
+                                                "
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <rect
+                                                    x="3"
+                                                    y="3"
+                                                    width="18"
+                                                    height="18"
+                                                    rx="2"
+                                                />
+                                                <path d="M3 9h18M9 21V9" />
+                                            </svg>
+                                            <svg
+                                                v-else-if="item.icon === 'code'"
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <path
+                                                    d="m9 8-4 4 4 4M15 8l4 4-4 4"
+                                                />
+                                            </svg>
+                                            <svg
+                                                v-else-if="
+                                                    item.icon === 'shield'
+                                                "
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <path
+                                                    d="M12 3l7 3v5.5c0 4.2-3 6.8-7 8-4-1.2-7-3.8-7-8V6z"
+                                                />
+                                                <path d="m9 12 2 2 4-4" />
+                                            </svg>
+                                            <svg
+                                                v-else-if="
+                                                    item.icon === 'deploy'
+                                                "
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <path
+                                                    d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"
+                                                />
+                                                <path d="M12 12v9" />
+                                                <path d="m16 16-4-4-4 4" />
+                                            </svg>
+                                            <svg
+                                                v-else
+                                                width="23"
+                                                height="23"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <path
+                                                    d="M22 12h-4l-3 9L9 3l-3 9H2"
+                                                />
+                                            </svg>
+                                        </span>
+                                        <div class="min-w-0">
+                                            <div
+                                                class="font-mono text-[11px]/none font-semibold tracking-[.14em] text-label uppercase"
+                                            >
+                                                Step {{ item.step }}
+                                            </div>
+                                            <h3
+                                                class="mt-1.5 text-[18px]/[1.3] font-bold text-fg"
+                                            >
+                                                {{ item.title }}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <p
+                                        class="mt-3.5 text-[14.5px]/[1.65] text-muted"
+                                    >
+                                        {{ item.description }}
+                                    </p>
+                                    <div class="mt-4 flex flex-wrap gap-2">
+                                        <span
+                                            v-for="deliverable in item.deliverables"
+                                            :key="deliverable"
+                                            class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-[7px] font-mono text-[11.5px]/none font-medium text-muted"
+                                        >
+                                            <svg
+                                                width="11"
+                                                height="11"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.6"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="text-accent"
+                                            >
+                                                <path d="m5 12 5 5L20 7" />
+                                            </svg>
+                                            {{ deliverable }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- KONTAK -->
         <section
             id="kontak"
@@ -798,7 +1104,7 @@ const services = [
             >
                 <span
                     v-reveal
-                    class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
+                    class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
                     >Kontak</span
                 >
                 <h2
@@ -817,7 +1123,7 @@ const services = [
                 <div class="mt-[34px] flex flex-wrap justify-center gap-3.5">
                     <a
                         v-reveal.scale="240"
-                        href="https://wa.me/6281234567890"
+                        href="https://wa.me/6281254418925"
                         target="_blank"
                         rel="noopener"
                         class="inline-flex cursor-pointer items-center gap-[9px] rounded-[11px] border-none bg-accent px-[22px] py-[13px] text-[15px]/none font-semibold text-accent-fg shadow-sm transition-all duration-200 hover:-translate-y-px hover:bg-accent-hover hover:shadow-md"
@@ -838,7 +1144,7 @@ const services = [
                     </a>
                     <a
                         v-reveal.scale="320"
-                        href="mailto:halo@sandev.id"
+                        href="mailto:ikisandana@gmail.com"
                         class="inline-flex cursor-pointer items-center gap-[9px] rounded-[11px] border border-line-strong bg-surface px-[21px] py-3 text-[15px]/none font-semibold text-fg transition-all duration-200 hover:border-accent hover:text-accent"
                     >
                         <svg
@@ -858,7 +1164,7 @@ const services = [
                     </a>
                     <a
                         v-reveal.scale="400"
-                        href="https://github.com/sandev"
+                        href="https://github.com/akuiki1"
                         target="_blank"
                         rel="noopener"
                         class="inline-flex cursor-pointer items-center gap-[9px] rounded-[11px] border border-line-strong bg-surface px-[21px] py-3 text-[15px]/none font-semibold text-fg transition-all duration-200 hover:border-accent hover:text-accent"

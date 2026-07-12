@@ -5,31 +5,40 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/* Nusandi brand palette — Laut Banda green & white, inverted across themes.
+   laut #0E3A3D · orange dot #E8632B · white.
+   Light: white ground, Laut Banda is the primary (buttons, text accents, logo).
+   Dark: the inverse — Laut Banda becomes the ground, white becomes the primary.
+   Orange (--dot) stays scarce: the logo dot and the wordmark period only. */
 :root {
-    --bg: oklch(0.985 0.003 255);
+    --bg: #ffffff;
     --surface: #ffffff;
-    --surface-2: oklch(0.968 0.004 255);
-    --surface-3: oklch(0.945 0.005 255);
-    --text: oklch(0.24 0.015 262);
-    --text-muted: oklch(0.5 0.014 262);
-    --text-subtle: oklch(0.63 0.011 262);
-    --border: oklch(0.915 0.005 262);
-    --border-strong: oklch(0.86 0.006 262);
+    --surface-2: #f1f5f4;
+    --surface-3: #e5ecea;
+    --text: #14201e;
+    --text-muted: #5b6a67;
+    --text-subtle: #8a9995;
+    --border: #e2eae8;
+    --border-strong: #ccd8d5;
     --sh-sm:
-        0 1px 2px oklch(0.45 0.03 262 / 0.06),
-        0 1px 3px oklch(0.45 0.03 262 / 0.05);
+        0 1px 2px oklch(0.4 0.015 200 / 0.06),
+        0 1px 3px oklch(0.4 0.015 200 / 0.05);
     --sh-md:
-        0 4px 14px oklch(0.45 0.03 262 / 0.08),
-        0 2px 5px oklch(0.45 0.03 262 / 0.05);
+        0 4px 14px oklch(0.4 0.015 200 / 0.08),
+        0 2px 5px oklch(0.4 0.015 200 / 0.05);
     --sh-lg:
-        0 16px 40px oklch(0.4 0.03 262 / 0.12),
-        0 6px 14px oklch(0.4 0.03 262 / 0.07);
-    --accent: oklch(0.55 0.19 262);
-    --accent-hover: color-mix(in oklch, var(--accent), #000 13%);
+        0 16px 40px oklch(0.35 0.015 200 / 0.12),
+        0 6px 14px oklch(0.35 0.015 200 / 0.07);
+    --accent: #0e3a3d;
+    --accent-hover: color-mix(in oklch, var(--accent), #000 12%);
     --accent-fg: #ffffff;
-    --accent-soft: color-mix(in oklch, var(--accent) 12%, var(--bg));
-    --accent-border: color-mix(in oklch, var(--accent) 30%, var(--border));
-    --ring: color-mix(in oklch, var(--accent) 45%, transparent);
+    --accent-soft: color-mix(in oklch, var(--accent) 10%, var(--bg));
+    --accent-border: color-mix(in oklch, var(--accent) 26%, var(--border));
+    --ring: color-mix(in oklch, var(--accent) 40%, transparent);
+    --brand: #0e3a3d;
+    --label: #0e3a3d;
+    --headline: #0e3a3d;
+    --dot: #e8632b;
     --success: oklch(0.7 0.16 150);
     --danger: oklch(0.62 0.21 22);
     --danger-border: oklch(0.65 0.2 22);
@@ -37,20 +46,24 @@
 }
 
 [data-theme='dark'] {
-    --bg: oklch(0.17 0.01 264);
-    --surface: oklch(0.205 0.013 264);
-    --surface-2: oklch(0.245 0.015 264);
-    --surface-3: oklch(0.29 0.016 264);
-    --text: oklch(0.96 0.004 260);
-    --text-muted: oklch(0.72 0.012 260);
-    --text-subtle: oklch(0.57 0.012 260);
-    --border: oklch(0.31 0.014 264);
-    --border-strong: oklch(0.4 0.016 264);
-    --sh-sm: 0 1px 2px oklch(0 0 0 / 0.35);
-    --sh-md: 0 6px 18px oklch(0 0 0 / 0.4);
-    --sh-lg: 0 18px 44px oklch(0 0 0 / 0.5);
-    --accent: oklch(0.7 0.16 262);
-    --accent-hover: color-mix(in oklch, var(--accent), #fff 12%);
+    --bg: #0e3a3d;
+    --surface: #124146;
+    --surface-2: #164b50;
+    --surface-3: #1c565b;
+    --text: #ffffff;
+    --text-muted: #b6c9c6;
+    --text-subtle: #85a09c;
+    --border: #235052;
+    --border-strong: #316669;
+    --sh-sm: 0 1px 2px oklch(0 0 0 / 0.4);
+    --sh-md: 0 6px 18px oklch(0 0 0 / 0.45);
+    --sh-lg: 0 18px 44px oklch(0 0 0 / 0.55);
+    --accent: #ffffff;
+    --accent-hover: color-mix(in oklch, var(--accent), #000 10%);
+    --accent-fg: #0e3a3d;
+    --brand: #0a2c2e;
+    --label: #ffffff;
+    --headline: #ffffff;
 }
 
 @theme inline {
@@ -75,6 +88,10 @@
     --color-accent-fg: var(--accent-fg);
     --color-accent-soft: var(--accent-soft);
     --color-accent-line: var(--accent-border);
+    --color-brand: var(--brand);
+    --color-label: var(--label);
+    --color-headline: var(--headline);
+    --color-dot: var(--dot);
     --color-ring: var(--ring);
     --color-success: var(--success);
     --color-danger: var(--danger);

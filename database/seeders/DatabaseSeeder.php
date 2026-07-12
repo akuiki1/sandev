@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::query()->updateOrCreate(
-            ['email' => 'admin@sandev.id'],
-            ['name' => 'SanDev', 'password' => 'password'],
+            ['email' => 'admin@nusandi.id'],
+            ['name' => 'Rizki Syandana', 'password' => 'password'],
         );
 
         $this->call(ProjectSeeder::class);

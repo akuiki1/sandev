@@ -17,7 +17,7 @@ export function useTheme() {
         document.documentElement.setAttribute('data-theme', theme.value);
 
         try {
-            localStorage.setItem('sandev_theme', theme.value);
+            localStorage.setItem('nusandi_theme', theme.value);
         } catch {
             // localStorage unavailable (private mode) — theme still applies for the session
         }

@@ -4,7 +4,7 @@ import { store } from '@/actions/App/Http/Controllers/Auth/LoginController';
 import { home } from '@/routes';
 
 const form = useForm({
-    email: 'admin@sandev.id',
+    email: 'admin@nusandi.id',
     password: '',
     remember: false,
 });
@@ -22,7 +22,7 @@ function submit() {
         class="grid min-h-screen grid-cols-1 bg-bg text-fg min-[861px]:grid-cols-[1.05fr_1fr]"
     >
         <div
-            class="hidden flex-col justify-between bg-accent p-[clamp(32px,4vw,56px)] text-white min-[861px]:flex"
+            class="hidden flex-col justify-between bg-brand p-[clamp(32px,4vw,56px)] text-white min-[861px]:flex"
         >
             <Link
                 :href="home()"
@@ -43,9 +43,11 @@ function submit() {
                 Kembali ke situs
             </Link>
             <div>
-                <div class="text-[26px]/none font-extrabold tracking-[-.02em]">
-                    SanDev
-                </div>
+                <img
+                    src="/images/nusandi-mark-white.png"
+                    alt="Nusandi"
+                    class="h-8 w-auto"
+                />
                 <h2
                     class="mt-[22px] max-w-[420px] text-[clamp(28px,3vw,40px)]/[1.12] font-extrabold tracking-[-.02em]"
                 >
@@ -87,7 +89,7 @@ function submit() {
         >
             <form class="w-full max-w-[400px]" @submit.prevent="submit">
                 <span
-                    class="font-mono text-xs/none font-medium tracking-[.16em] text-accent uppercase"
+                    class="font-mono text-xs/none font-medium tracking-[.16em] text-label uppercase"
                     >Masuk</span
                 >
                 <h1

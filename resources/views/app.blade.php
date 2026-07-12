@@ -7,16 +7,16 @@
         <script>
             (function () {
                 try {
-                    if (localStorage.getItem('sandev_theme') === 'dark') {
+                    if (localStorage.getItem('nusandi_theme') === 'dark') {
                         document.documentElement.setAttribute('data-theme', 'dark');
                     }
                 } catch (e) {}
             })();
         </script>
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico?v={{ filemtime(public_path('favicon.ico')) }}" sizes="any">
+        <link rel="icon" href="/favicon.svg?v={{ filemtime(public_path('favicon.svg')) }}" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v={{ filemtime(public_path('apple-touch-icon.png')) }}">
 
         @fonts
 

@@ -28,7 +28,7 @@ defineProps<{
                         Dashboard
                     </h1>
                     <p class="mt-2 text-[15px]/[1.5] text-muted">
-                        Selamat datang kembali, SanDev. Berikut ringkasan
+                        Selamat datang kembali, Rizki. Berikut ringkasan
                         portofolio Anda.
                     </p>
                 </div>
