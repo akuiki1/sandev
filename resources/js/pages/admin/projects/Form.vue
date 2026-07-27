@@ -33,7 +33,11 @@ const form = useForm({
     status: props.project?.status ?? false,
     sort_order: props.project?.sort_order ?? props.nextOrder ?? 1,
     thumbnail: null as File | null,
+    screenshots: [] as File[],
+    existing_screenshots: props.project ? [...props.project.screenshots] : [],
 });
+
+const MAX_SCREENSHOTS = 8;
 
 const slugEdited = ref(isEdit);
 const techDraft = ref('');
@@ -41,6 +45,8 @@ const thumbnailPreview = ref<string | null>(
     props.project?.thumbnail ? `/storage/${props.project.thumbnail}` : null,
 );
 const fileInput = ref<HTMLInputElement | null>(null);
+const screenshotInput = ref<HTMLInputElement | null>(null);
+const screenshotPreviews = ref<string[]>([]);
 
 function slugify(value: string): string {
     return value
@@ -116,6 +122,58 @@ function onFileChange(event: Event) {
 
 function onDrop(event: DragEvent) {
     selectThumbnail(event.dataTransfer?.files?.[0]);
+}
+
+const screenshotCount = computed(
+    () => form.existing_screenshots.length + form.screenshots.length,
+);
+
+const screenshotErrors = computed<string[]>(() =>
+    Object.entries(form.errors as Record<string, string>)
+        .filter(
+            ([key]) => key === 'screenshots' || key.startsWith('screenshots.'),
+        )
+        .map(([, message]) => message),
+);
+
+function addScreenshots(files: FileList | null | undefined) {
+    if (!files?.length) {
+        return;
+    }
+
+    const room = MAX_SCREENSHOTS - screenshotCount.value;
+
+    if (room <= 0) {
+        toast.show(`Maksimal ${MAX_SCREENSHOTS} screenshot per project.`);
+
+        return;
+    }
+
+    for (const file of Array.from(files).slice(0, room)) {
+        form.screenshots.push(file);
+        screenshotPreviews.value.push(URL.createObjectURL(file));
+    }
+}
+
+function onScreenshotChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    addScreenshots(input.files);
+    input.value = '';
+}
+
+function onScreenshotDrop(event: DragEvent) {
+    addScreenshots(event.dataTransfer?.files);
+}
+
+function removeExistingScreenshot(index: number) {
+    form.existing_screenshots.splice(index, 1);
+}
+
+function removeNewScreenshot(index: number) {
+    URL.revokeObjectURL(screenshotPreviews.value[index]);
+    form.screenshots.splice(index, 1);
+    screenshotPreviews.value.splice(index, 1);
 }
 
 function submit() {
@@ -486,6 +544,133 @@ function fieldClass(base: string, hasError: boolean): string {
                             class="mt-[7px] text-[12.5px]/[1.4] font-medium text-danger"
                         >
                             {{ form.errors.technologies }}
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            class="mb-2 flex items-center justify-between gap-3 text-[13.5px]/none font-semibold text-fg"
+                        >
+                            Screenshot
+                            <span class="text-xs font-medium text-subtle"
+                                >{{ screenshotCount }}/{{
+                                    MAX_SCREENSHOTS
+                                }}</span
+                            >
+                        </label>
+                        <div
+                            v-if="screenshotCount"
+                            class="mb-3 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3"
+                        >
+                            <div
+                                v-for="(
+                                    path, index
+                                ) in form.existing_screenshots"
+                                :key="path"
+                                class="group relative aspect-16/10 overflow-hidden rounded-[11px] border border-line-strong bg-bg"
+                            >
+                                <img
+                                    :src="`/storage/${path}`"
+                                    :alt="`Screenshot ${index + 1}`"
+                                    class="h-full w-full object-cover"
+                                />
+                                <button
+                                    type="button"
+                                    aria-label="Hapus screenshot"
+                                    class="absolute top-1.5 right-1.5 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-line bg-surface/90 text-subtle backdrop-blur-sm transition-all duration-[.16s] hover:border-danger-line hover:text-danger"
+                                    @click="removeExistingScreenshot(index)"
+                                >
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2.2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M18 6 6 18M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div
+                                v-for="(preview, index) in screenshotPreviews"
+                                :key="preview"
+                                class="group relative aspect-16/10 overflow-hidden rounded-[11px] border border-accent-line bg-bg"
+                            >
+                                <img
+                                    :src="preview"
+                                    :alt="`Screenshot baru ${index + 1}`"
+                                    class="h-full w-full object-cover"
+                                />
+                                <span
+                                    class="absolute bottom-1.5 left-1.5 rounded-md bg-accent-soft px-2 py-1 text-[10.5px]/none font-semibold text-accent"
+                                    >Baru</span
+                                >
+                                <button
+                                    type="button"
+                                    aria-label="Hapus screenshot"
+                                    class="absolute top-1.5 right-1.5 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-line bg-surface/90 text-subtle backdrop-blur-sm transition-all duration-[.16s] hover:border-danger-line hover:text-danger"
+                                    @click="removeNewScreenshot(index)"
+                                >
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2.2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M18 6 6 18M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            v-if="screenshotCount < MAX_SCREENSHOTS"
+                            class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-[11px] border-[1.5px] border-dashed border-line-strong px-4 py-7 text-subtle transition-colors duration-[.16s] hover:border-accent hover:text-accent"
+                            @click="screenshotInput?.click()"
+                            @dragover.prevent
+                            @drop.prevent="onScreenshotDrop"
+                        >
+                            <svg
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                                />
+                            </svg>
+                            <span class="text-[12.5px]/none font-semibold"
+                                >Seret gambar atau pilih beberapa file</span
+                            >
+                            <span
+                                class="font-mono text-[11px]/none font-medium text-subtle"
+                                >PNG / JPG / WEBP · maks 2 MB per file</span
+                            >
+                        </div>
+                        <input
+                            ref="screenshotInput"
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            class="hidden"
+                            @change="onScreenshotChange"
+                        />
+                        <div
+                            v-for="error in screenshotErrors"
+                            :key="error"
+                            class="mt-[7px] text-[12.5px]/[1.4] font-medium text-danger"
+                        >
+                            {{ error }}
                         </div>
                     </div>
                 </div>

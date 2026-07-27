@@ -32,7 +32,7 @@ class ProjectFactory extends Factory
                 ['Laravel', 'PHP', 'MySQL', 'Tailwind CSS', 'Alpine.js', 'Livewire', 'Vue.js'],
                 3,
             ),
-            'screenshots' => ['Halaman utama', 'Halaman form', 'Halaman laporan'],
+            'screenshots' => [],
             'github_url' => null,
             'demo_url' => null,
             'status' => false,

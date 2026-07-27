@@ -130,6 +130,128 @@ it('stores an uploaded thumbnail on the public disk', function () {
     Storage::disk('public')->assertExists($project->thumbnail);
 });
 
+it('stores uploaded screenshots on the public disk', function () {
+    Storage::fake('public');
+
+    $this->post(route('admin.projects.store'), [
+        'title' => 'Dengan Screenshot',
+        'slug' => 'dengan-screenshot',
+        'summary' => 'Ringkasan.',
+        'case_study' => 'Studi kasus.',
+        'solution' => 'Solusi.',
+        'features' => ['Fitur'],
+        'technologies' => ['Laravel'],
+        'status' => false,
+        'sort_order' => 1,
+        'screenshots' => [
+            UploadedFile::fake()->image('satu.png', 1280, 800),
+            UploadedFile::fake()->image('dua.png', 1280, 800),
+        ],
+    ])->assertRedirect(route('admin.projects.index'));
+
+    $project = Project::query()->where('slug', 'dengan-screenshot')->firstOrFail();
+
+    expect($project->screenshots)->toHaveCount(2);
+
+    foreach ($project->screenshots as $screenshot) {
+        expect($screenshot)->toStartWith('projects/screenshots/');
+        Storage::disk('public')->assertExists($screenshot);
+    }
+});
+
+it('rejects a non image screenshot', function () {
+    $this->post(route('admin.projects.store'), [
+        'title' => 'Screenshot Salah',
+        'slug' => 'screenshot-salah',
+        'summary' => 'Ringkasan.',
+        'case_study' => 'Studi kasus.',
+        'solution' => 'Solusi.',
+        'features' => ['Fitur'],
+        'technologies' => ['Laravel'],
+        'status' => false,
+        'sort_order' => 1,
+        'screenshots' => [UploadedFile::fake()->create('dokumen.pdf', 100)],
+    ])->assertSessionHasErrors(['screenshots.0' => 'Screenshot harus berupa gambar.']);
+});
+
+it('rejects more screenshots than the allowed maximum', function () {
+    Storage::fake('public');
+
+    $project = Project::factory()->create([
+        'screenshots' => ['projects/screenshots/lama.png'],
+    ]);
+
+    $this->put(route('admin.projects.update', $project), [
+        'title' => $project->title,
+        'slug' => $project->slug,
+        'summary' => $project->summary,
+        'case_study' => $project->case_study,
+        'solution' => $project->solution,
+        'features' => $project->features,
+        'technologies' => $project->technologies,
+        'status' => $project->status,
+        'sort_order' => $project->sort_order,
+        'existing_screenshots' => $project->screenshots,
+        'screenshots' => array_map(
+            static fn (int $index) => UploadedFile::fake()->image("shot-{$index}.png"),
+            range(1, 8),
+        ),
+    ])->assertSessionHasErrors(['screenshots' => 'Maksimal 8 screenshot per project.']);
+});
+
+it('keeps retained screenshots and deletes the removed ones on update', function () {
+    Storage::fake('public');
+
+    $kept = UploadedFile::fake()->image('kept.png')->store('projects/screenshots', 'public');
+    $removed = UploadedFile::fake()->image('removed.png')->store('projects/screenshots', 'public');
+
+    $project = Project::factory()->create(['screenshots' => [$kept, $removed]]);
+
+    $this->put(route('admin.projects.update', $project), [
+        'title' => $project->title,
+        'slug' => $project->slug,
+        'summary' => $project->summary,
+        'case_study' => $project->case_study,
+        'solution' => $project->solution,
+        'features' => $project->features,
+        'technologies' => $project->technologies,
+        'status' => $project->status,
+        'sort_order' => $project->sort_order,
+        'existing_screenshots' => [$kept],
+        'screenshots' => [UploadedFile::fake()->image('baru.png')],
+    ])->assertRedirect(route('admin.projects.index'));
+
+    $screenshots = $project->refresh()->screenshots;
+
+    expect($screenshots)->toHaveCount(2)
+        ->and($screenshots[0])->toBe($kept)
+        ->and($screenshots[1])->not->toBe($removed);
+
+    Storage::disk('public')->assertExists($screenshots[1]);
+    Storage::disk('public')->assertMissing($removed);
+});
+
+it('keeps existing screenshots when none are submitted on update', function () {
+    $project = Project::factory()->create([
+        'screenshots' => ['projects/screenshots/lama.png'],
+    ]);
+
+    $this->put(route('admin.projects.update', $project), [
+        'title' => $project->title,
+        'slug' => $project->slug,
+        'summary' => $project->summary,
+        'case_study' => $project->case_study,
+        'solution' => $project->solution,
+        'features' => $project->features,
+        'technologies' => $project->technologies,
+        'status' => $project->status,
+        'sort_order' => $project->sort_order,
+        'existing_screenshots' => $project->screenshots,
+    ])->assertRedirect(route('admin.projects.index'));
+
+    expect($project->refresh()->screenshots)->toBe(['projects/screenshots/lama.png']);
+});
+
 it('updates an existing project', function () {
     $project = Project::factory()->create(['slug' => 'lama']);
 

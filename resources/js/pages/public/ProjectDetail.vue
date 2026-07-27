@@ -178,7 +178,7 @@ defineProps<{ project: Project }>();
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div v-if="project.screenshots.length">
                             <span
                                 class="font-mono text-xs/none font-medium tracking-[.14em] text-accent uppercase"
                                 >Screenshot</span
@@ -186,16 +186,23 @@ defineProps<{ project: Project }>();
                             <div
                                 class="mt-3.5 grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4"
                             >
-                                <div
-                                    v-for="screenshot in project.screenshots"
+                                <a
+                                    v-for="(
+                                        screenshot, index
+                                    ) in project.screenshots"
                                     :key="screenshot"
-                                    class="flex aspect-16/10 items-end rounded-xl border border-line placeholder-stripes p-3"
+                                    :href="`/storage/${screenshot}`"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="block aspect-16/10 overflow-hidden rounded-xl border border-line bg-surface-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent"
                                 >
-                                    <span
-                                        class="font-mono text-[11px]/[1.3] font-medium text-subtle"
-                                        >{{ screenshot }}</span
-                                    >
-                                </div>
+                                    <img
+                                        :src="`/storage/${screenshot}`"
+                                        :alt="`Screenshot ${index + 1} ${project.title}`"
+                                        loading="lazy"
+                                        class="h-full w-full object-cover"
+                                    />
+                                </a>
                             </div>
                         </div>
                     </div>

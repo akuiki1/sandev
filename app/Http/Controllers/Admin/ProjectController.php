@@ -40,7 +40,8 @@ class ProjectController extends Controller
             $data['thumbnail'] = $request->file('thumbnail')->store('projects', 'public');
         }
 
-        $data['screenshots'] = ['Halaman utama', 'Halaman form', 'Halaman laporan'];
+        $data['screenshots'] = $this->storeScreenshots($request);
+        unset($data['existing_screenshots']);
 
         $project = Project::query()->create($data);
 
@@ -62,6 +63,7 @@ class ProjectController extends Controller
                 'solution',
                 'features',
                 'technologies',
+                'screenshots',
                 'github_url',
                 'demo_url',
                 'status',
@@ -84,6 +86,18 @@ class ProjectController extends Controller
         } else {
             unset($data['thumbnail']);
         }
+
+        $keptScreenshots = array_values(array_intersect(
+            array_map(static fn (mixed $path): string => (string) $path, (array) $request->input('existing_screenshots', [])),
+            $project->screenshots,
+        ));
+
+        foreach (array_diff($project->screenshots, $keptScreenshots) as $removed) {
+            Storage::disk('public')->delete($removed);
+        }
+
+        $data['screenshots'] = [...$keptScreenshots, ...$this->storeScreenshots($request)];
+        unset($data['existing_screenshots']);
 
         $project->update($data);
 
@@ -114,5 +128,21 @@ class ProjectController extends Controller
         Project::withTrashed()->findOrFail($id)->restore();
 
         return redirect()->route('admin.projects.index');
+    }
+
+    /**
+     * Store the newly uploaded screenshots on the public disk.
+     *
+     * @return array<int, string>
+     */
+    private function storeScreenshots(StoreProjectRequest $request): array
+    {
+        $paths = [];
+
+        foreach ((array) $request->file('screenshots', []) as $screenshot) {
+            $paths[] = $screenshot->store('projects/screenshots', 'public');
+        }
+
+        return $paths;
     }
 }

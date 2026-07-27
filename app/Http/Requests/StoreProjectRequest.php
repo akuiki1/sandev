@@ -3,12 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class StoreProjectRequest extends FormRequest
 {
+    /**
+     * Maximum number of screenshots a project may have.
+     */
+    public const MAX_SCREENSHOTS = 8;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -39,6 +45,32 @@ class StoreProjectRequest extends FormRequest
             'status' => ['boolean'],
             'sort_order' => ['required', 'integer', 'min:0'],
             'thumbnail' => ['nullable', 'image', 'max:2048'],
+            'screenshots' => ['nullable', 'array', 'max:'.self::MAX_SCREENSHOTS],
+            'screenshots.*' => ['image', 'max:2048'],
+            'existing_screenshots' => ['nullable', 'array', 'max:'.self::MAX_SCREENSHOTS],
+            'existing_screenshots.*' => ['string'],
+        ];
+    }
+
+    /**
+     * Get the "after" validation callables for the request.
+     *
+     * @return array<int, callable>
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                $total = count((array) $this->file('screenshots', []))
+                    + count((array) $this->input('existing_screenshots', []));
+
+                if ($total > self::MAX_SCREENSHOTS) {
+                    $validator->errors()->add(
+                        'screenshots',
+                        'Maksimal '.self::MAX_SCREENSHOTS.' screenshot per project.',
+                    );
+                }
+            },
         ];
     }
 
@@ -68,6 +100,9 @@ class StoreProjectRequest extends FormRequest
             'demo_url.url' => 'Format URL tidak valid.',
             'thumbnail.image' => 'Thumbnail harus berupa gambar.',
             'thumbnail.max' => 'Ukuran gambar maksimal 2 MB.',
+            'screenshots.max' => 'Maksimal '.self::MAX_SCREENSHOTS.' screenshot per project.',
+            'screenshots.*.image' => 'Screenshot harus berupa gambar.',
+            'screenshots.*.max' => 'Ukuran screenshot maksimal 2 MB.',
         ];
     }
 
