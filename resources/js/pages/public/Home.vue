@@ -597,35 +597,14 @@ const workflowSteps = [
                 >
                     <div v-reveal.left>
                         <div
-                            class="flex aspect-4/5 max-w-[420px] items-center justify-center rounded-[18px] border border-line placeholder-stripes shadow-md"
+                            class="aspect-4/5 max-w-[420px] overflow-hidden rounded-[18px] border border-line bg-surface shadow-md"
                         >
-                            <span
-                                class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 font-mono text-[12.5px]/none font-medium text-subtle"
-                            >
-                                <svg
-                                    width="15"
-                                    height="15"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.9"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <rect
-                                        x="3"
-                                        y="3"
-                                        width="18"
-                                        height="18"
-                                        rx="2"
-                                    />
-                                    <circle cx="9" cy="9" r="1.8" />
-                                    <path
-                                        d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"
-                                    />
-                                </svg>
-                                foto profil
-                            </span>
+                            <img
+                                src="/images/sandev-foto.jpg"
+                                alt="Rizki Syandana"
+                                loading="lazy"
+                                class="h-full w-full object-cover object-top"
+                            />
                         </div>
                     </div>
                     <div>
