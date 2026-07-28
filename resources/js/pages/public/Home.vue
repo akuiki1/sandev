@@ -682,9 +682,9 @@ const workflowSteps = [
                             v-reveal="160"
                             class="mt-3.5 text-[16.5px]/[1.65] text-muted"
                         >
-                            Enam sistem informasi yang saya rancang dan
-                            kembangkan. Saring berdasarkan teknologi untuk
-                            melihat yang relevan.
+                            Karya unggulan berupa sistem informasi yang saya
+                            rancang dan kembangkan. Saring berdasarkan teknologi
+                            untuk melihat yang relevan.
                         </p>
                     </div>
                     <span
