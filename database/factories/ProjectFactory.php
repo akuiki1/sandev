@@ -18,7 +18,8 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->unique()->words(2, true);
+        $words = fake()->unique()->words(2);
+        $title = is_array($words) ? implode(' ', $words) : $words;
 
         return [
             'title' => Str::title($title),
