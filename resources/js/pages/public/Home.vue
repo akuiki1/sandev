@@ -39,10 +39,15 @@ const visibleProjects = computed(() =>
 const skills = [
     'Laravel',
     'PHP',
+    'Vue.js',
+    'Inertia.js',
+    'React',
+    'TypeScript',
     'MySQL',
     'Tailwind CSS',
-    'Alpine.js',
     'Livewire',
+    'Filament',
+    'Alpine.js',
     'REST API',
     'Git',
 ];
@@ -527,56 +532,18 @@ const workflowSteps = [
                             >
                         </div>
                         <div class="flex items-center gap-[9px]">
-                            <svg
-                                width="22"
-                                height="22"
-                                viewBox="0 0 24 24"
-                                fill="#2496ED"
-                            >
-                                <rect
-                                    x="4.4"
-                                    y="9"
-                                    width="2.5"
-                                    height="2.5"
-                                    rx=".3"
-                                />
-                                <rect
-                                    x="7.5"
-                                    y="9"
-                                    width="2.5"
-                                    height="2.5"
-                                    rx=".3"
-                                />
-                                <rect
-                                    x="10.6"
-                                    y="9"
-                                    width="2.5"
-                                    height="2.5"
-                                    rx=".3"
-                                />
-                                <rect
-                                    x="7.5"
-                                    y="5.9"
-                                    width="2.5"
-                                    height="2.5"
-                                    rx=".3"
-                                />
-                                <rect
-                                    x="10.6"
-                                    y="5.9"
-                                    width="2.5"
-                                    height="2.5"
-                                    rx=".3"
+                            <svg width="22" height="22" viewBox="0 0 24 24">
+                                <path
+                                    d="M14.9 3.5 12 8.5 9.1 3.5H3.4L12 18.4 20.6 3.5z"
+                                    fill="#41B883"
                                 />
                                 <path
-                                    d="M2 12.3h16.4c.2 1.6-.5 3.2-1.9 4.3-1.3 1-3 1.4-4.8 1.4-3.6 0-6.6-1.3-8.3-3.7-.6-.9-1.1-1.4-1.4-2z"
-                                />
-                                <path
-                                    d="M18.8 11.2c.5-1 .3-2.2-.3-2.8-.6.6-.8 1.6-.4 2.5z"
+                                    d="M14.9 3.5 12 8.5 9.1 3.5H6.3L12 13.4l5.7-9.9z"
+                                    fill="#34495E"
                                 />
                             </svg>
                             <span class="text-sm/none font-semibold text-fg"
-                                >Docker</span
+                                >Vue.js</span
                             >
                         </div>
                     </div>
