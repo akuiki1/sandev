@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { edit as passwordEdit } from '@/actions/App/Http/Controllers/Auth/PasswordController';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { home } from '@/routes';
 import { create, edit, index as projectsIndex } from '@/routes/admin/projects';
@@ -256,6 +257,25 @@ defineProps<{
                             />
                         </svg>
                         Lihat landing page
+                    </Link>
+                    <Link
+                        :href="passwordEdit()"
+                        class="flex cursor-pointer items-center gap-2.5 rounded-[10px] border border-line bg-surface-2 p-3 text-left text-sm/none font-semibold text-fg transition-all duration-[.16s] hover:border-accent"
+                    >
+                        <svg
+                            width="17"
+                            height="17"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.9"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect x="3" y="11" width="18" height="10" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Ganti password
                     </Link>
                 </div>
             </div>

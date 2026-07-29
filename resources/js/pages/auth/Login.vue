@@ -144,7 +144,7 @@ function submit() {
                         {{ form.errors.password }}
                     </div>
                 </div>
-                <div class="mt-4 flex items-center justify-between">
+                <div class="mt-4 flex items-center">
                     <label
                         class="flex cursor-pointer items-center gap-2 text-[13.5px]/none font-medium text-muted"
                     >
@@ -155,11 +155,6 @@ function submit() {
                         />
                         Ingat saya
                     </label>
-                    <a
-                        href="#"
-                        class="text-[13.5px]/none font-semibold text-accent hover:text-accent-hover"
-                        >Lupa password?</a
-                    >
                 </div>
                 <button
                     type="submit"
@@ -171,7 +166,7 @@ function submit() {
                 <p
                     class="mt-5 text-center font-mono text-[12.5px]/[1.5] font-medium text-subtle"
                 >
-                    Dilindungi Laravel Breeze
+                    Akses terbatas untuk administrator.
                 </p>
             </form>
         </div>

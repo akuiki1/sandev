@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
 import { destroy as logout } from '@/actions/App/Http/Controllers/Auth/LoginController';
+import { edit as passwordEdit } from '@/actions/App/Http/Controllers/Auth/PasswordController';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/useToast';
@@ -123,6 +124,25 @@ const navBase =
                         </div>
                     </div>
                 </div>
+                <Link
+                    :href="passwordEdit()"
+                    class="flex cursor-pointer items-center gap-2.5 rounded-[10px] border border-line bg-transparent px-3 py-2.5 text-left text-[13.5px]/none font-semibold text-muted transition-all duration-[.16s] hover:border-accent hover:text-accent"
+                >
+                    <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <rect x="3" y="11" width="18" height="10" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    Ganti Password
+                </Link>
                 <Link
                     :href="logout()"
                     as="button"
