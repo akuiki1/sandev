@@ -198,3 +198,66 @@ Vue components must have a single root element.
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
 </laravel-boost-guidelines>
+
+---
+
+> Semua di atas dihasilkan Laravel Boost dan **ditimpa ulang** tiap `composer update`
+> (`boost:update` ada di `post-update-cmd`). Jangan menulis apa pun di dalam tag itu.
+> Catatan khusus proyek ini ditulis di bawah sini.
+
+# Sandev — situs portofolio Nusandi
+
+Portofolio pribadi milik **Rizki Syandana (Nusandi)**, tayang di **nusandi.page.gd**. Laravel 13 + Inertia + Vue 3 + Tailwind. Ruang lingkupnya sengaja kecil: satu halaman publik, satu halaman detail proyek, dan panel admin untuk mengelola isinya.
+
+**Ini situs yang dilihat perekrut.** Perubahan apa pun di sini berdampak langsung ke citra profesional, bukan cuma ke kode. Perlakukan setiap perubahan tampilan dan teks sebagai keputusan, bukan detail teknis.
+
+## Perintah
+
+```bash
+composer run dev                     # server + queue + vite
+php artisan test --filter=NamaTest   # iterasi cepat
+composer test                        # pint + phpstan + seluruh test
+composer ci:check                    # + eslint, prettier, vue-tsc
+```
+
+Gate sebelum sesuatu dianggap selesai: **`composer ci:check` hijau seluruhnya** (PHPStan 0 error, Pint bersih, test hijau).
+
+## Jangan dibaca / diedit
+
+- Blok `<laravel-boost-guidelines>` di file ini — lihat catatan di atas.
+- `resources/js/routes/**`, `resources/js/actions/**`, `resources/js/wayfinder/**` — hasil generate Laravel Wayfinder. Impor saja, jangan pernah buka atau ubah.
+
+## Bentuk aplikasi
+
+Hanya dua model: **`Project`** dan **`User`**. Tidak ada peran, tidak ada tim — satu akun admin tunggal.
+
+```
+/                        HomeController          publik
+/project/{project}       ProjectController@show  publik, {project} = SLUG
+/login                   guest
+/admin/*                 auth + auth.session     dashboard, CRUD projects, ganti password
+```
+
+`Project` yang perlu diingat:
+
+- **`getRouteKeyName()` = `slug`**, bukan id.
+- **`scopePublished()`** menyaring `status = true`. Halaman publik wajib memakainya — tanpa itu draf ikut tampil.
+- **`SoftDeletes`**, dan ada rute `projects/{id}/restore` (memakai **id numerik**, bukan slug, karena baris terhapus tidak dicari lewat route model binding).
+- `features`, `technologies`, `screenshots` di-cast **array** (kolom JSON).
+
+## Unggahan gambar
+
+Thumbnail dan screenshot disimpan ke **disk `public`** (`->store('projects', 'public')`), bukan disk default `local` yang tertulis di `.env.example`. Konsekuensinya:
+
+- Butuh `php artisan storage:link` supaya file tampil.
+- Saat mengganti thumbnail atau membuang screenshot, controller menghapus berkas lamanya lewat `Storage::disk('public')->delete(...)` — pola itu harus ikut ditiru kalau menambah jenis unggahan baru, kalau tidak berkas yatim menumpuk.
+
+## Jebakan yang perlu diketahui
+
+1. **Mengubah judul proyek berpotensi mengubah slug, dan slug adalah URL-nya.** Tautan yang sudah terlanjur dibagikan ke perekrut atau di CV akan mati. Kalau judul harus berubah setelah dibagikan, pertahankan slug lamanya.
+
+2. **`storage:link` adalah simbolik link, dan hosting gratis sering tidak mengizinkannya.** Sebelum menyimpulkan "unggahan rusak di produksi", periksa dulu apakah symlink-nya benar-benar terbentuk di host — gejalanya identik dengan bug aplikasi padahal bukan.
+
+3. **Konten proyek adalah data, bukan kode.** `ProjectSeeder` hanya untuk mengisi dev. Jangan menjalankan seeder di produksi untuk "memperbarui portofolio" — isinya dikelola lewat panel admin, dan seeder bisa menimpa yang sudah diedit di sana.
+
+4. **Halaman publik hanya boleh menampilkan proyek `published`.** Setiap query baru di sisi publik harus lewat `scopePublished()`; ini satu-satunya yang memisahkan draf dari yang tayang.
